@@ -4,15 +4,10 @@ from Utils.DataLoader import EOS_WORD
 
 class Beam(object):
     """
-    Class for managing the internals of the beam search process.
-
-    Takes care of beams, back pointers, and scores.
-
     Args:
        size (int): beam size
        pad, bos, eos (int): indices of padding, beginning, and ending.
        k_best (int): nbest size to use
-       cuda (bool): use gpu
        global_scorer (:obj:`GlobalScorer`)
     """
     def __init__(self, size, pad, bos, eos, config, k_best=1, global_scorer=None):
@@ -47,7 +42,7 @@ class Beam(object):
         self.global_state = {}
 
         # Minimum prediction length
-        #self.min_length = config.min_length
+        self.min_length = 3
 
         # Apply Penalty at every step
         self.stepwise_penalty = config.stepwise_penalty
@@ -78,7 +73,7 @@ class Beam(object):
         if self.stepwise_penalty:
             self.global_scorer.update_score(self, attn_out)
         # force the output to be longer than self.min_length
-        cur_len = len(self.next_ys)
+        # cur_len = len(self.next_ys)
         # if cur_len < self.min_length:
         #     for k in range(len(word_probs)):
         #         word_probs[k][self._eos] = -1e20

@@ -67,15 +67,6 @@ def format_config(args):
 
 
 def config_device(config):
-    #-------------------------------------------------------
-    # added by hao, 2017.08.31
-    # Solved the bug on the parameter "config.gpu_ids".
-    # A bug exists in current version of pytorch, which makes it cannot
-    # find the predetermined GPU correctly.
-    """
-    If you want to configure which GPU to use, please use the following
-    code snippet before any calls of pytorch module (must!!!).
-    """
     if config.device_ids:
         config.device_ids = [int(x) for x in config.device_ids.split(",")]
     else:
@@ -83,24 +74,3 @@ def config_device(config):
             [str(idx) for idx in list(
                 range(config.gpu_ids, config.gpu_ids + config.num_gpus))])
         config.device_ids = list(range(config.num_gpus))
-
-
-def config_path(config):
-    pass
-    # config.out_dir = os.path.join(
-    #     config.out_base_dir, config.model_name, str(config.run_id).zfill(2))
-    # config.log_dir = os.path.join(
-    #     config.out_dir, "log")
-    # config.eval_path = os.path.join(
-    #     config.log_dir, "eval.json")
-    # config.ir_end_eval_path = os.path.join(
-    #     config.log_dir, "ir_{}_end.tsv".format(config.load_step))
-    # config.ir_each_eval_path = os.path.join(
-    #     config.log_dir, "ir_{}_each.json".format(config.load_step))
-    # config.qa_each_eval_path = os.path.join(
-    #     config.log_dir, "qa_{}_each.json".format(config.load_step))
-    # config.save_dir = os.path.join(
-    #     config.out_dir, "save")
-    # os.makedirs(config.out_dir, exist_ok=True)
-    # os.makedirs(config.log_dir, exist_ok=True)
-    # os.makedirs(config.save_dir, exist_ok=True)

@@ -59,6 +59,7 @@ class Optimizer(object):
             self.optimizer = optim.Adam(self.params, lr=self.lr,
                                         betas=self.betas, eps=1e-9)
         elif self.method == 'RMSprop':
+            # does not work properly.
             self.optimizer = optim.RMSprop(self.params, lr=self.lr, 
                 alpha=self.alpha, eps=self.eps, weight_decay=self.lr_decay_rate, 
                 momentum=self.momentum, centered=False)
@@ -77,14 +78,6 @@ class Optimizer(object):
         rate.
         """
         self._step += 1
-
-        # Decay method used in tensor2tensor.
-        if self.decay_method == "noam":
-            self._set_rate(
-                self.original_lr *
-                (self.model_size ** (-0.5) *
-                 min(self._step ** (-0.5),
-                     self._step * self.warmup_steps**(-1.5))))
 
         if self.max_grad_norm:
             clip_grad_norm(self.params, self.max_grad_norm)

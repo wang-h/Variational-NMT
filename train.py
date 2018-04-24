@@ -25,13 +25,6 @@ from NMT import Optimizer
 from NMT import model_factory
 
 
-# def set_gpu(config):
-#     if torch.cuda.is_available() and not config.gpu_ids:
-#         print("WARNING: You have a CUDA device, should run with -gpu_id 0")
-
-#     if config.gpu_ids:
-#         torch.cuda.set_device(config.gpu_ids[0])
-
 
 def train_model(model, optimizer, loss_func,
                 train_data_iter, valid_data_iter, config):
@@ -46,7 +39,7 @@ def train_model(model, optimizer, loss_func,
         train_stats = trainer.train(
             train_iter, epoch, train_data_iter.num_batches)
 
-        
+        print('')
         trace('Epoch %d, Train acc: %g, ppl: %g' %
               (epoch, train_stats.accuracy(), train_stats.ppl()))
 

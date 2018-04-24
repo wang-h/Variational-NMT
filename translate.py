@@ -23,6 +23,7 @@ from NMT.translate import GNMTGlobalScorer
 from Utils.plot import plot_attn
 from Utils.utils import report_bleu
 from Utils.utils import report_rouge
+
 def report_score(name, score_total, words_total):
     print("%s AVG SCORE: %.4f, %s PPL: %.4f" % (
         name, score_total / words_total,

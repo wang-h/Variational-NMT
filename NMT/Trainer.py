@@ -73,7 +73,7 @@ class Trainer(object):
 
             
             report_stats(
-                batch_stats, epoch, idx, num_batches, 
+                batch_stats, epoch, idx+1, num_batches, 
                 self.progress_step, self.optim.lr)
             
             total_stats.update(batch_stats)

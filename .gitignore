@@ -2,3 +2,5 @@
 !/.gitignore
 *.pyc 
 scripts
+__pycache__/*
+__pycache__

@@ -13,7 +13,7 @@ from NMT.Models import PackedRNNEncoder
 from NMT.Models import RNNEncoder
 from NMT.Models import InputFeedRNNDecoder
 from NMT.Models import VarInputFeedRNNDecoder
-from NMT.Modules import Embeddings
+
 from torch.nn.init import xavier_uniform
 from Utils.DataLoader import PAD_WORD
 from Utils.utils import trace, aeq
@@ -27,13 +27,19 @@ def make_embeddings(vocab_size, embed_dim, dropout, padding_idx):
         feature_dicts([Vocab], optional): a list of feature dictionary.
         for_encoder(bool): make Embeddings for encoder or decoder?
     """
-    
-    return Embeddings(embed_dim,
-                      position_encoding=False,
-                      dropout=dropout,
-                      word_padding_idx=padding_idx,
-                      word_vocab_size=vocab_size,
-                      sparse=True)
+    return nn.Embedding(vocab_size, 
+            embed_dim,
+            padding_idx=padding_idx, 
+            max_norm=None, 
+            norm_type=2, 
+            scale_grad_by_freq=False, 
+            sparse=False)
+    # return nn.Embeddings(embed_dim,
+    #                   position_encoding=False,
+    #                   dropout=dropout,
+    #                   word_padding_idx=padding_idx,
+    #                   word_vocab_size=vocab_size,
+    #                   sparse=True)
 
 def model_factory(config, src_vocab, trg_vocab, train_mode=True, checkpoint=None):
     
@@ -109,8 +115,7 @@ def model_factory(config, src_vocab, trg_vocab, train_mode=True, checkpoint=None
             src_embeddings, trg_embeddings, 
             trg_vocab.vocab_size,  
             config)
-    # if config.share_embeddings:
-    #     generator[0].weight = decoder.embeddings.word_lut.weight
+   
 
     if checkpoint is not None:
         trace('Loading model parameters.')
@@ -135,8 +140,7 @@ def model_factory(config, src_vocab, trg_vocab, train_mode=True, checkpoint=None
         model.train()
     else:
         model.eval()
-    # Make the whole model leverage GPU if indicated to do so.
-    #print(opt)
+
     if config.gpu_ids is not None:
         model.cuda()
     else:

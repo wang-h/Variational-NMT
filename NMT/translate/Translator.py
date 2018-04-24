@@ -187,8 +187,6 @@ class BatchTranslator(object):
         for dec, trg in zip(decoder_output, trg_out.data):
             # Log prob of each word.
             out = F.log_softmax(self.model.generator(dec).data, dim=-1)
-            #trg = trg.unsqueeze(1)
-            #print(trg.size(),  out.size())
             scores = out.data.gather(1, trg)
             scores.masked_fill_(trg.eq(trg_pad), 0)
             gold_scores += scores.squeeze().float()

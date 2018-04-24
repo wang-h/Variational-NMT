@@ -23,11 +23,3 @@ def plot_attn(source, target, attn):
     ax.yaxis.set_major_locator(ticker.MultipleLocator(1))
 
     plt.show()
-
-
-# def evaluateAndShowAttention(input_sentence):
-#     output_words, attentions = evaluate(
-#         encoder1, attn_decoder1, input_sentence)
-#     print('input =', input_sentence)
-#     print('output =', ' '.join(output_words))
-#     showAttention(input_sentence, output_words, attentions)

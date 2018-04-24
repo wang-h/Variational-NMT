@@ -105,7 +105,7 @@ class Translation(object):
         best_score = self.pred_scores[0]
         pred_sent = ' '.join(best_pred)
         output += 'PRED {}: {}\n'.format(sent_number, pred_sent)
-        print("PRED SCORE: {:.4f}".format(best_score))
+        trace("PRED SCORE: {:.4f}".format(best_score))
 
         if self.gold_sent is not None:
             trg_sent = ' '.join(self.gold_sent)

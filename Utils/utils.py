@@ -45,19 +45,6 @@ def report_stats(stats, epoch, batch, n_batches, step_time, lr):
                     stats.loss, stats.loss_detail()[0], stats.loss_detail()[1]))
         sys.stderr.flush()
 
-# def report_loss(t, num_epochs, lr, *loss, loss_names=["NLLLoss"], prefix="", file=sys.stderr):
-    
-#     sys.stderr.flush()
-#     format_output = prefix + "[{0:d}/{1:d}], lr={2:.4f}"
-#     i = 3
-#     for l_name in loss_names:
-#         format_output += ", %s={%d:.4f}"%(l_name, i)
-#         i += 1
-#     format_output += "        \r"
-#     sys.stderr.write(
-#         format_output.format(t, num_epochs, lr, *loss))
-#     sys.stderr.flush()
-#     file.write(format_output.format(t, num_epochs, lr, *loss))
 
 def debug_trace(*args, file=sys.stderr):
     print(datetime.datetime.now().strftime(
@@ -74,38 +61,6 @@ def check_save_path(path):
     if not os.path.exists(dirname):
         os.makedirs(dirname)
 
-def sort_in_batch(batch, lengths, descending=True, batch_first=False):                                                 
-    """
-    Sort the batch (N, T/J, D) given input lengths. Some models with RNN
-    components require batching different length input by zero padding
-    them to the same length., when the input have different lengths.
-    torch.nn.Sequenceexpects the sequences to be ordered by length.
-    We need to reorder the batch first for passage order and after that
-    for question length order, feeded to the RNN and after that reorder
-    again with the initial batch ordering to feed the correct combination
-    of question and passage.
-    """
-    
-    if batch_first:
-        sorted_lengths, sorted_indices = torch.sort(
-            lengths, dim=0, descending=descending)
-        sorted_batch = batch[sorted_indices]
-    else:
-        sorted_lengths, sorted_indices = torch.sort(
-            lengths, dim=1, descending=descending)
-        sorted_batch = batch[:,sorted_indices,:]
-    return sorted_batch, sorted_lengths, sorted_indices
-
-
-def permute_tensor(tensor, indices, dim=0):
-    """Given sorted_indices, accept Variables (tensor) to permute fast"""
-    if dim == 0:
-        permuted_tensor = tensor[indices]
-        return permuted_tensor
-    elif dim == 1:
-        tensor = tensor.transpose(0, 1).contiguous()
-        permuted_tensor = tensor[indices]
-        return permuted_tensor.transpose(0, 1).contiguous()
 
 def report_bleu(reference_corpus, translation_corpus):
    

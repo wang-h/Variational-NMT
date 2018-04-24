@@ -50,10 +50,3 @@ class Statistics(object):
 
     
 
-    def log(self, prefix, experiment, lr):
-        t = self.elapsed_time()
-        experiment.add_scalar_value(prefix + "_ppl", self.ppl())
-        experiment.add_scalar_value(prefix + "_accuracy", self.accuracy())
-        experiment.add_scalar_value(prefix + "_trgper",  self.n_words / t)
-        experiment.add_scalar_value(prefix + "_lr", lr)
-

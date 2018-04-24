@@ -108,7 +108,10 @@ class DataSet(list):
             self[i] = (x, y)
 
 class DataBatchIterator(object):
-    def __init__(self, config, dataset="train", is_train=True, batch_size=64, shuffle=False, sample=False, sort_in_batch=True):
+    def __init__(self, config, dataset="train", 
+                    is_train=True, batch_size=64, 
+                    shuffle=False, sample=False, 
+                    sort_in_batch=True):
         self.config = config
         self.examples = DataSet(config=config, is_train=is_train, dataset=dataset)
         self.src_vocab = Vocab(lang=config.src_lang, config=config)
@@ -158,7 +161,7 @@ class DataBatchIterator(object):
             sentence =  sentence + [w2id[EOS_WORD]]
         if len(sentence) < max_L:
             sentence = sentence + [w2id[PAD_WORD]] * (max_L-len(sentence))
-        return [[x] for x in sentence]
+        return [x for x in sentence]
   
 
     def pad_seq_pair(self, samples):
@@ -211,5 +214,3 @@ class Batch(object):
     def batch_size(self):
         return self.src_Ls.size(0)
 
-if __name__ == '__main__':
-    data_path="/home/hao/data"

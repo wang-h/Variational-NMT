@@ -40,10 +40,13 @@ class NMTLoss(nn.Module):
 
         """
         ce_loss = self.criterion(probs, golds.view(-1))
-        #ce_loss = ce_loss.div(normalization)
+        
         loss = ce_loss + self.kld_weight * kld_loss
         loss = loss.div(normalization)
-        loss_dict = {"CELoss": float(ce_loss)/normalization, "KLDLoss":float(kld_loss)/normalization}
+        loss_dict = {
+            "CELoss": float(ce_loss)/normalization, 
+            "KLDLoss":float(kld_loss)/normalization
+            }
         del ce_loss, kld_loss
         batch_stats = self.create_stats(float(loss), probs, golds.view(-1), loss_dict)
         return loss, batch_stats
@@ -56,7 +59,7 @@ class NMTLoss(nn.Module):
             target (`FloatTensor`): true targets
 
         Returns:
-            :obj:`Statistics` : statistics for this batch.
+            `Statistics` : statistics for this batch.
         """
         preds = probs.data.topk(1, dim=-1)[1]
         non_padding = golds.ne(self.padding_idx) 
