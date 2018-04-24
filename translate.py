@@ -35,9 +35,8 @@ def main():
     config = read_config(args, parser, args.config)
     config.batch_size = 1
     test_data_iter = DataBatchIterator(
-        config=config, is_train=True, dataset="test", batch_size=config.batch_size)
-    # test_data_iter = DataBatchIterator(
-    #     config=config, is_train=False, dataset="test", batch_size=config.batch_size)
+        config=config, is_train=False, dataset="test", batch_size=config.batch_size)
+    
     src_vocab = torch.load(config.save_vocab + "." + config.src_lang)
     trg_vocab = torch.load(config.save_vocab + "." + config.trg_lang)
 
