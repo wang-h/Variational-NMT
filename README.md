@@ -29,8 +29,11 @@ explains the reason why use GRU instead of LSTM for building RNN cell, in genera
 
 
 ## Usage
+
 Training
-    python train.py --config config/nmt.ini
+
+        python train.py --config config/nmt.ini
 
 Test
-    python translate.py --config config/nmt.ini    
+
+        python translate.py --config config/nmt.ini    
